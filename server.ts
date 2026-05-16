@@ -170,27 +170,46 @@ async function startServer() {
     // Handle unknown API routes (404) BEFORE allowing Vite catch-all
     app.use("/api", notFoundHandler);
   } else {
-    const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
+    // On Vercel, static files are handled by the platform before hitting the function
+    if (!process.env.VERCEL) {
+      const distPath = path.join(process.cwd(), "dist");
+      app.use(express.static(distPath));
 
-    // Handle unknown API routes (404) BEFORE returning index.html for SPA
-    app.use("/api", notFoundHandler);
+      // Handle unknown API routes (404) BEFORE returning index.html for SPA
+      app.use("/api", notFoundHandler);
 
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
-    });
+      app.get("*", (req, res) => {
+        res.sendFile(path.join(distPath, "index.html"));
+      });
+    } else {
+       // In Vercel, if we reach here on an /api route that wasn't found
+       app.use("/api", notFoundHandler);
+    }
   }
 
   // Centralized Error Handler
   app.use(errorHandler);
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://0.0.0.0:${PORT}`);
-  });
+  return app;
 }
 
-startServer().catch((err) => {
-  console.error("Failed to start server:", err);
-});
+const appPromise = startServer();
+
+if (process.env.VERCEL) {
+  // Instead of app.listen, we export a handler function for Vercel
+  module.exports = async (req: any, res: any) => {
+    const app = await appPromise;
+    app(req, res);
+  };
+} else {
+  appPromise.then((app) => {
+    const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Server running on http://0.0.0.0:${PORT}`);
+    });
+  }).catch((err) => {
+    console.error("Failed to start server:", err);
+  });
+}
 
 // synced
