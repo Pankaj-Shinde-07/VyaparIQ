@@ -1,0 +1,232 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPER_ADMIN
+  BUSINESS_OWNER
+  MANAGER
+  STAFF
+}
+
+enum BusinessType {
+  MEDICAL
+  KIRANA
+  AGRICULTURE
+  OTHER
+}
+
+enum InvoiceStatus {
+  DRAFT
+  ISSUED
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+model User {
+  id             String    @id @default(uuid())
+  email          String    @unique
+  password       String
+  firstName      String
+  lastName       String?
+  role           Role      @default(BUSINESS_OWNER)
+  isEmailVerified Boolean  @default(false)
+  avatarUrl      String?
+
+  businessId     String?
+  business       Business? @relation(fields: [businessId], references: [id])
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  deletedAt      DateTime?
+
+  activityLogs   ActivityLog[]
+
+  @@index([email])
+}
+
+model Business {
+  id             String       @id @default(uuid())
+  name           String
+  gstin          String?      @unique
+  type           BusinessType @default(OTHER)
+  address        String?
+  phone          String?
+  email          String?
+
+  users          User[]
+  products       Product[]
+  customers      Customer[]
+  invoices       Invoice[]
+  moduleAccess   TenantModuleAccess[]
+  subscriptions  Subscription[]
+
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  deletedAt      DateTime?
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  sku         String?
+  price       Float
+  stock       Int      @default(0)
+  barcode     String?
+
+  businessId  String
+  business    Business @relation(fields: [businessId], references: [id])
+
+  invoiceItems InvoiceItem[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+
+  @@index([businessId])
+}
+
+model Customer {
+  id          String   @id @default(uuid())
+  name        String
+  email       String?
+  phone       String?
+  address     String?
+  gstin       String?
+
+  businessId  String
+  business    Business @relation(fields: [businessId], references: [id])
+
+  invoices    Invoice[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+
+  @@index([businessId])
+}
+
+model Invoice {
+  id             String        @id @default(uuid())
+  invoiceNumber  String
+  status         InvoiceStatus @default(DRAFT)
+  issueDate      DateTime      @default(now())
+  dueDate        DateTime?
+  subtotal       Float
+  taxTotal       Float         @default(0)
+  discountTotal  Float         @default(0)
+  total          Float
+
+  businessId     String
+  business       Business      @relation(fields: [businessId], references: [id])
+  
+  customerId     String
+  customer       Customer      @relation(fields: [customerId], references: [id])
+
+  items          InvoiceItem[]
+
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  deletedAt      DateTime?
+
+  @@index([businessId])
+  @@index([customerId])
+}
+
+model InvoiceItem {
+  id          String   @id @default(uuid())
+  quantity    Int
+  unitPrice   Float
+  total       Float
+
+  invoiceId   String
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id])
+  
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([invoiceId])
+  @@index([productId])
+}
+
+model ActivityLog {
+  id          String   @id @default(uuid())
+  action      String
+  details     String?
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+}
+
+model AppModule {
+  id          String   @id @default(uuid())
+  code        String   @unique // e.g., 'MEDICAL', 'INVOICING', 'POS'
+  name        String   // "Medical Store Management"
+  description String?
+  isActive    Boolean  @default(true)
+  pricePerMonth Float  @default(0)
+
+  tenantAccess TenantModuleAccess[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum SubscriptionTier {
+  FREE
+  BASIC
+  PRO
+  ENTERPRISE
+}
+
+model Subscription {
+  id             String           @id @default(uuid())
+  businessId     String
+  business       Business         @relation(fields: [businessId], references: [id])
+  tier           SubscriptionTier @default(FREE)
+  isActive       Boolean          @default(true)
+  startDate      DateTime         @default(now())
+  endDate        DateTime?
+  
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([businessId])
+}
+
+model TenantModuleAccess {
+  id          String   @id @default(uuid())
+  businessId  String
+  business    Business @relation(fields: [businessId], references: [id])
+  moduleId    String
+  module      AppModule @relation(fields: [moduleId], references: [id])
+  
+  isActive    Boolean  @default(true)
+  grantedAt   DateTime @default(now())
+  expiresAt   DateTime?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([businessId, moduleId])
+  @@index([businessId])
+  @@index([moduleId])
+}
+
