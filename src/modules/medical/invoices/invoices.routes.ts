@@ -5,9 +5,9 @@ import {
   getInvoice,
   updateInvoiceStatus,
 } from "./invoices.controller";
-import { requireAuth } from "../../../shared/middlewares/requireAuth";
-import { validateRequest } from "../../../shared/middlewares/validateRequest";
-import { requireModuleAccess } from "../../../shared/middlewares/requireModuleAccess";
+import { requireAuth } from "../../../shared/middlewares/requireAuth.js";
+import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
+import { requireModuleAccess } from "../../../shared/middlewares/requireModuleAccess.js";
 import {
   createInvoiceSchema,
   updateInvoiceStatusSchema,

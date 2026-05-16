@@ -5,10 +5,10 @@ import {
   getProduct,
   updateProduct,
 } from "./products.controller";
-import { requireAuth } from "../../../shared/middlewares/requireAuth";
-import { validateRequest } from "../../../shared/middlewares/validateRequest";
-import { requireModuleAccess } from "../../../shared/middlewares/requireModuleAccess";
-import { createProductSchema, updateProductSchema } from "./products.schema";
+import { requireAuth } from "../../../shared/middlewares/requireAuth.js";
+import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
+import { requireModuleAccess } from "../../../shared/middlewares/requireModuleAccess.js";
+import { createProductSchema, updateProductSchema } from "./products.schema.js";
 
 const router = Router();
 

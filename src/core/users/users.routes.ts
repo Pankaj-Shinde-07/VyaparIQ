@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { getMe, updateMe } from "./users.controller";
-import { requireAuth } from "../../shared/middlewares/requireAuth";
-import { validateRequest } from "../../shared/middlewares/validateRequest";
-import { updateMeSchema } from "./users.schema";
+import { getMe, updateMe } from "./users.controller.js";
+import { requireAuth } from "../../shared/middlewares/requireAuth.js";
+import { validateRequest } from "../../shared/middlewares/validateRequest.js";
+import { updateMeSchema } from "./users.schema.js";
 
 const router = Router();
 

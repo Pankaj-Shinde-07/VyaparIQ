@@ -10,12 +10,12 @@ import compression from "compression";
 import swaggerUi from "swagger-ui-express";
 import fs from "fs";
 import { createServer as createViteServer } from "vite";
-import { apiRouter } from "./src/routes";
-import { errorHandler } from "./src/shared/middlewares/errorHandler";
-import { notFoundHandler } from "./src/shared/middlewares/notFound";
-import { apiLimiter } from "./src/shared/middlewares/rateLimiter";
-import { logger } from "./src/shared/utils/logger";
-import { prisma } from "./src/database/client";
+import { apiRouter } from "./src/routes/index.js";
+import { errorHandler } from "./src/shared/middlewares/errorHandler.js";
+import { notFoundHandler } from "./src/shared/middlewares/notFound.js";
+import { apiLimiter } from "./src/shared/middlewares/rateLimiter.js";
+import { logger } from "./src/shared/utils/logger.js";
+import { prisma } from "./src/database/client.js";
 
 // --- Sanity Environment Checks ---
 if (process.env.NODE_ENV === "production") {
@@ -195,13 +195,12 @@ async function startServer() {
 
 const appPromise = startServer();
 
-if (process.env.VERCEL) {
-  // Instead of app.listen, we export a handler function for Vercel
-  module.exports = async (req: any, res: any) => {
-    const app = await appPromise;
-    app(req, res);
-  };
-} else {
+export default async function handler(req: any, res: any) {
+  const app = await appPromise;
+  app(req, res);
+}
+
+if (!process.env.VERCEL) {
   appPromise.then((app) => {
     const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
     app.listen(PORT, "0.0.0.0", () => {

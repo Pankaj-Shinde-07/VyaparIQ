@@ -1,11 +1,11 @@
 import { motion } from "motion/react";
 import { useState, useEffect } from "react";
 import { Menu, X, ArrowRight, Zap, Target, Star } from "lucide-react";
-import { cn } from "../lib/utils";
-import { ThemeToggle } from "./ThemeToggle";
+import { cn } from "../lib/utils.js";
+import { ThemeToggle } from "./ThemeToggle.js";
 import { Link } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import { Logo } from "./Logo";
+import { useAuth } from "../contexts/AuthContext.js";
+import { Logo } from "./Logo.js";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);

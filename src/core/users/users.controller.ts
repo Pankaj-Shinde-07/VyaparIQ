@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { UserService } from "./users.service";
-import { catchAsync } from "../../shared/utils/catchAsync";
+import { UserService } from "./users.service.js";
+import { catchAsync } from "../../shared/utils/catchAsync.js";
 
 export const getMe = catchAsync(async (req: Request, res: Response) => {
   const userId = (req as any).user.userId;

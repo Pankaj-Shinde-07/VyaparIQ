@@ -1,5 +1,5 @@
-import { prisma } from "../../../database/client";
-import { AppError } from "../../../shared/utils/AppError";
+import { prisma } from "../../../database/client.js";
+import { AppError } from "../../../shared/utils/AppError.js";
 
 export class InvoiceService {
   static async createInvoice(businessId: string, data: any) {

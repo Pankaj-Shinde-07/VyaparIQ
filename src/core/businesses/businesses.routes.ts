@@ -4,8 +4,8 @@ import {
   getMyBusiness,
   updateMyBusiness,
 } from "./businesses.controller";
-import { requireAuth } from "../../shared/middlewares/requireAuth";
-import { validateRequest } from "../../shared/middlewares/validateRequest";
+import { requireAuth } from "../../shared/middlewares/requireAuth.js";
+import { validateRequest } from "../../shared/middlewares/validateRequest.js";
 import {
   createBusinessSchema,
   updateBusinessSchema,

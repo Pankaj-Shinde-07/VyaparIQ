@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { Check } from "lucide-react";
-import { cn } from "../../lib/utils";
+import { cn } from "../../lib/utils.js";
 
 export function Pricing() {
   const plans = [

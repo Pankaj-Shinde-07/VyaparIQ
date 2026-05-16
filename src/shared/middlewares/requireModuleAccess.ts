@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { AppError } from "../utils/AppError";
-import { prisma } from "../../database/client";
-import { UserService } from "../../core/users/users.service";
+import { AppError } from "../utils/AppError.js";
+import { prisma } from "../../database/client.js";
+import { UserService } from "../../core/users/users.service.js";
 
 export const requireModuleAccess = (moduleCode: string) => {
   return async (req: Request, res: Response, next: NextFunction) => {

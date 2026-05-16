@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import toast from "react-hot-toast";
-import { apiClient } from "../api/client";
-import { useAuth } from "../contexts/AuthContext";
+import { apiClient } from "../api/client.js";
+import { useAuth } from "../contexts/AuthContext.js";
 import { Store, Stethoscope, ChevronRight, CheckCircle2 } from "lucide-react";
 
 export function Onboarding() {

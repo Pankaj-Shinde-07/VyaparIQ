@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { BusinessService } from "./businesses.service";
-import { UserService } from "../users/users.service";
-import { catchAsync } from "../../shared/utils/catchAsync";
-import { AppError } from "../../shared/utils/AppError";
+import { BusinessService } from "./businesses.service.js";
+import { UserService } from "../users/users.service.js";
+import { catchAsync } from "../../shared/utils/catchAsync.js";
+import { AppError } from "../../shared/utils/AppError.js";
 
 export const createBusiness = catchAsync(
   async (req: Request, res: Response) => {

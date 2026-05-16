@@ -6,8 +6,8 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { AuthProvider, useAuth } from "./contexts/AuthContext";
-import { ThemeProvider } from "./contexts/ThemeContext";
+import { AuthProvider, useAuth } from "./contexts/AuthContext.js";
+import { ThemeProvider } from "./contexts/ThemeContext.js";
 
 // Lazy loaded pages
 const Home = lazy(() => import("./pages/Home").then(m => ({ default: m.Home })));

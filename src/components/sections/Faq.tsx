@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import React, { useState } from "react";
 import { Plus, Minus } from "lucide-react";
-import { cn } from "../../lib/utils";
+import { cn } from "../../lib/utils.js";
 
 const faqs = [
   {

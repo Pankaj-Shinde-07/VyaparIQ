@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import { apiClient } from "../api/client";
+import { useAuth } from "../contexts/AuthContext.js";
+import { apiClient } from "../api/client.js";
 import { 
   Building2, User, LogOut, LayoutGrid, Package, 
   Settings, ShoppingCart, Users, Receipt, ArrowRight,
   TrendingUp, Shield, Activity
 } from "lucide-react";
-import { Logo } from "../components/Logo";
+import { Logo } from "../components/Logo.js";
 
 export function Dashboard() {
   const { user, logout } = useAuth();

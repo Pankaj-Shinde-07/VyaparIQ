@@ -5,10 +5,10 @@ import {
   subscribeToModule,
   createModule,
 } from "./modules.controller";
-import { requireAuth } from "../../shared/middlewares/requireAuth";
-import { requireRoles } from "../../shared/middlewares/requireRole";
-import { validateRequest } from "../../shared/middlewares/validateRequest";
-import { assignModuleSchema, createModuleSchema } from "./modules.schema";
+import { requireAuth } from "../../shared/middlewares/requireAuth.js";
+import { requireRoles } from "../../shared/middlewares/requireRole.js";
+import { validateRequest } from "../../shared/middlewares/validateRequest.js";
+import { assignModuleSchema, createModuleSchema } from "./modules.schema.js";
 
 const router = Router();
 

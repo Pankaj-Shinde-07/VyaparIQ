@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import toast from "react-hot-toast";
-import { apiClient } from "../api/client";
-import { useAuth } from "../contexts/AuthContext";
+import { apiClient } from "../api/client.js";
+import { useAuth } from "../contexts/AuthContext.js";
 import { Building2 } from "lucide-react";
-import { Logo } from "../components/Logo";
+import { Logo } from "../components/Logo.js";
 
 export function Login() {
   const [formData, setFormData] = useState({

@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { ModuleService } from "./modules.service";
-import { UserService } from "../users/users.service";
-import { catchAsync } from "../../shared/utils/catchAsync";
-import { AppError } from "../../shared/utils/AppError";
+import { ModuleService } from "./modules.service.js";
+import { UserService } from "../users/users.service.js";
+import { catchAsync } from "../../shared/utils/catchAsync.js";
+import { AppError } from "../../shared/utils/AppError.js";
 
 const getBusinessId = async (req: Request) => {
   const userId = (req as any).user.userId;

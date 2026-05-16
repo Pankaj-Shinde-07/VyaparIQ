@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
-import { prisma } from "../../database/client";
-import { AppError } from "../../shared/utils/AppError";
-import { generateTokens } from "../../shared/utils/jwt";
-import { logger } from "../../shared/utils/logger";
+import { prisma } from "../../database/client.js";
+import { AppError } from "../../shared/utils/AppError.js";
+import { generateTokens } from "../../shared/utils/jwt.js";
+import { logger } from "../../shared/utils/logger.js";
 
 export class AuthService {
   static async register(data: any) {

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import toast from "react-hot-toast";
-import { apiClient } from "../api/client";
+import { apiClient } from "../api/client.js";
 import { Building2 } from "lucide-react";
-import { Logo } from "../components/Logo";
+import { Logo } from "../components/Logo.js";
 
 export function Register() {
   const [formData, setFormData] = useState({
